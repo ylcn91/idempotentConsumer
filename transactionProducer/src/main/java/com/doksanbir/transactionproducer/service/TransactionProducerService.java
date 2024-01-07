@@ -20,7 +20,7 @@ public class TransactionProducerService {
     private final KafkaTemplate<String, Transaction> kafkaTemplate;
 
     @Value("${kafka.topic}")
-    private String topic; // Made non-final
+    private String topic;
 
     @Scheduled(fixedRateString = "${schedule.rate.ms}")
     public void sendRandomTransactionsPeriodically() {
@@ -28,12 +28,12 @@ public class TransactionProducerService {
         sendTransaction(transaction);
     }
 
-    private void sendTransaction(Transaction transaction) {
+    void sendTransaction(Transaction transaction) {
         log.info("Sending transaction: {}", transaction);
         kafkaTemplate.send(topic, transaction.transactionId(), transaction);
     }
 
-    private Transaction generateRandomTransaction() {
+    Transaction generateRandomTransaction() {
         String transactionId = UUID.randomUUID().toString();
         double amount = ThreadLocalRandom.current().nextDouble(1, 1000);
         LocalDateTime timestamp = LocalDateTime.now();

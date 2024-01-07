@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 
 @Slf4j
 @Service
-
 public class TransactionConsumerService {
 
     private final TransactionEventConverter eventConverter;
